@@ -6,8 +6,10 @@ import {
 	Param,
 	Patch,
 	Post,
+	UseInterceptors,
 } from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LoggingInterceptor } from 'src/logging/logging.interceptor';
 import { createRuralProducerSchema } from 'src/schemas/createRuralProducerSchema';
 import { updateRuralProducerSchema } from 'src/schemas/updateRuralProducerSchema';
 import { ZodValidationPipe } from 'src/zod-validation/zod-validation.pipe';
@@ -16,6 +18,7 @@ import type { UpdateRuralProducerDto } from './dto/update-rural-producer.dto';
 import { RuralProducer } from './entities/rural-producer.entity';
 import { RuralProducerService } from './rural-producer.service';
 
+@UseInterceptors(LoggingInterceptor)
 @ApiTags('Produtor Rural')
 @Controller('rural-producer')
 export class RuralProducerController {

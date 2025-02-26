@@ -11,6 +11,19 @@ export class RuralProducerService {
 	async create(
 		createRuralProducerDto: CreateRuralProducerDto,
 	): Promise<RuralProducer> {
+		const { cpfCnpj } = createRuralProducerDto;
+
+		const existingRuralProducer = await this.prisma.ruralProducer.findUnique({
+			where: { cpfCnpj },
+		});
+
+		if (existingRuralProducer) {
+			throw new HttpException(
+				'Rural producer with this CPF/CNPJ is already exists',
+				HttpStatus.BAD_REQUEST,
+			);
+		}
+
 		return await this.prisma.ruralProducer.create({
 			data: createRuralProducerDto,
 		});

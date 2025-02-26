@@ -1,26 +1,92 @@
-import { Injectable } from '@nestjs/common';
+import { FarmService } from '@/farm/farm.service';
+import { PrismaService } from '@/prisma/prisma.service';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateHarvestDto } from './dto/create-harvest.dto';
 import { UpdateHarvestDto } from './dto/update-harvest.dto';
+import { Harvest } from './entities/harvest.entity';
 
 @Injectable()
 export class HarvestService {
-  create(createHarvestDto: CreateHarvestDto) {
-    return 'This action adds a new harvest';
-  }
+	constructor(
+		private readonly farmService: FarmService,
+		private readonly prismaService: PrismaService,
+	) {}
 
-  findAll() {
-    return `This action returns all harvest`;
-  }
+	async create(
+		cpfCnpj: string,
+		farmId: number,
+		createHarvestDto: CreateHarvestDto,
+	): Promise<Harvest> {
+		const { year } = createHarvestDto;
+		await this.farmService.findOne(cpfCnpj, farmId);
 
-  findOne(id: number) {
-    return `This action returns a #${id} harvest`;
-  }
+		const existingHarvest = await this.prismaService.harvest.findUnique({
+			where: { year },
+		});
 
-  update(id: number, updateHarvestDto: UpdateHarvestDto) {
-    return `This action updates a #${id} harvest`;
-  }
+		if (existingHarvest) {
+			throw new HttpException(
+				'Harvest with this year already exists',
+				HttpStatus.BAD_REQUEST,
+			);
+		}
 
-  remove(id: number) {
-    return `This action removes a #${id} harvest`;
-  }
+		return await this.prismaService.harvest.create({
+			data: { ...createHarvestDto, farmId },
+			omit: {
+				farmId: true,
+			},
+		});
+	}
+
+	async findAll(cpfCnpj: string, farmId: number): Promise<Harvest[]> {
+		await this.farmService.findOne(cpfCnpj, farmId);
+
+		return this.prismaService.harvest.findMany({ where: { farmId } });
+	}
+
+	async findOne(
+		cpfCnpj: string,
+		farmId: number,
+		year: string,
+	): Promise<Harvest> {
+		await this.farmService.findOne(cpfCnpj, farmId);
+
+		const harvest = await this.prismaService.harvest.findUnique({
+			where: { year },
+		});
+
+		if (!harvest) {
+			throw new HttpException(
+				`Harvest ${year} not found`,
+				HttpStatus.NOT_FOUND,
+			);
+		}
+
+		return harvest;
+	}
+
+	async update(
+		cpfCnpj: string,
+		farmId: number,
+		year: string,
+		updateHarvestDto: UpdateHarvestDto,
+	): Promise<Harvest> {
+		await this.findOne(cpfCnpj, farmId, year);
+
+		return this.prismaService.harvest.update({
+			data: updateHarvestDto,
+			where: { year },
+		});
+	}
+
+	async remove(
+		cpfCnpj: string,
+		farmId: number,
+		year: string,
+	): Promise<Harvest> {
+		await this.findOne(cpfCnpj, farmId, year);
+
+		return await this.prismaService.harvest.delete({ where: { year } });
+	}
 }

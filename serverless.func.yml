@@ -1,3 +1,12 @@
+CreateRuralProducer:
+  name: get-all-rural-producer
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: post
+        path: ${self:custom.version}/rural-producer
+
 GetAllRuralProducer:
   name: get-all-rural-producer
   handler: dist/src/lambda.handler
@@ -6,11 +15,30 @@ GetAllRuralProducer:
     - http:
         method: get
         path: ${self:custom.version}/rural-producer
-GetOneRuralProducer:
-  name: get-one-rural-producer
+
+GetRuralProducerByCpfCnpj:
+  name: get-rural-producer-by-cpf-cnpj
   handler: dist/src/lambda.handler
   timeout: 15
   events:
     - http:
         method: get
-        path: ${self:custom.version}/rural-producer/{producerId}
+        path: ${self:custom.version}/rural-producer/{cpfCnpj}
+
+UpdateRuralProducerByCpfCnpj:
+  name: update-rural-producer-by-cpf-cnpj
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: patch
+        path: ${self:custom.version}/rural-producer/{cpfCnpj}
+
+DeleteRuralProducerByCpfCnpj:
+  name: delete-rural-producer-by-cpf-cnpj
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: delete
+        path: ${self:custom.version}/rural-producer/{cpfCnpj}

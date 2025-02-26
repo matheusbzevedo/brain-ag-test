@@ -33,6 +33,7 @@
 		"helmet": "^8.0.0",
 		"reflect-metadata": "^0.2.2",
 		"rxjs": "^7",
+		"winston": "^3",
 		"zod": "^3.24.2"
 	},
 	"devDependencies": {
@@ -69,6 +70,7 @@
 		},
 		"collectCoverageFrom": ["**/*.(t|j)s"],
 		"coverageDirectory": "../coverage",
-		"testEnvironment": "node"
+		"testEnvironment": "node",
+		"testPathIgnorePatterns": ["src/schemas"]
 	}
 }

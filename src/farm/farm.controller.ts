@@ -6,8 +6,10 @@ import {
 	Param,
 	Patch,
 	Post,
+	UseInterceptors,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LoggingInterceptor } from 'src/logging/logging.interceptor';
 import { createUpdateFarmSchema } from 'src/schemas/createFarmSchema';
 import { ZodValidationPipe } from 'src/zod-validation/zod-validation.pipe';
 import { CreateFarmDto } from './dto/create-farm.dto';
@@ -15,6 +17,7 @@ import { UpdateFarmDto } from './dto/update-farm.dto';
 import { Farm } from './entities/farm.entity';
 import { FarmService } from './farm.service';
 
+@UseInterceptors(LoggingInterceptor)
 @ApiTags('Fazenda')
 @Controller('farm')
 export class FarmController {
