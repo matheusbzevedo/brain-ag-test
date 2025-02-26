@@ -7,8 +7,8 @@ import {
 	Patch,
 	Post,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import type { CreateRuralProducerDto } from './dto/create-rural-producer.dto';
+import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CreateRuralProducerDto } from './dto/create-rural-producer.dto';
 import type { UpdateRuralProducerDto } from './dto/update-rural-producer.dto';
 import { RuralProducer } from './entities/rural-producer.entity';
 import { RuralProducerService } from './rural-producer.service';
@@ -19,8 +19,31 @@ export class RuralProducerController {
 	constructor(private readonly ruralProducerService: RuralProducerService) {}
 
 	@Post()
-	@ApiOperation({ summary: 'Create Rural Producer' })
-	create(@Body() createRuralProducerDto: CreateRuralProducerDto) {
+	@ApiOperation({
+		summary: 'Create Rural Producer',
+	})
+	@ApiBody({
+		type: CreateRuralProducerDto,
+		examples: {
+			a: {
+				summary: 'Filled body',
+				value: {
+					name: 'Matheus',
+					cpfCnpj: '9999999999',
+				},
+			},
+			b: {
+				summary: 'Empty body',
+				value: {},
+			},
+		},
+	})
+	@ApiOkResponse({
+		type: RuralProducer,
+	})
+	create(
+		@Body() createRuralProducerDto: CreateRuralProducerDto,
+	): Promise<RuralProducer> {
 		return this.ruralProducerService.create(createRuralProducerDto);
 	}
 

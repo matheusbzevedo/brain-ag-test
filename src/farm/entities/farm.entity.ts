@@ -44,7 +44,6 @@ export class Farm {
 	@ApiProperty({
 		description: 'Safras',
 		isArray: true,
-		nullable: true,
 	})
 	haversts?: Harvest[];
 }

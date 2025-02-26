@@ -17,5 +17,5 @@ export class Harvest {
 		description: 'Cultura plantada.',
 		isArray: true,
 	})
-	crop: string[];
+	crop?: string[];
 }
