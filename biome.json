@@ -25,7 +25,8 @@
 				"noDefaultExport": "off",
 				"noImplicitBoolean": "off",
 				"useNamingConvention": "off",
-				"noParameterProperties": "off"
+				"noParameterProperties": "off",
+				"useImportType": "off"
 			},
 			"complexity": {
 				"all": true

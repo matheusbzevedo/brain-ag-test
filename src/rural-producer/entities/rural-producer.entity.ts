@@ -1,3 +1,4 @@
+import { Farm } from '@/farm/entities/farm.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class RuralProducer {
@@ -14,26 +15,10 @@ export class RuralProducer {
 	name: string;
 
 	@ApiProperty({
-		example: 'Fazenda do Flamengo',
-		description: 'Nome da fazenda.',
+		description: 'Propriedades rurais.',
+		type: Farm,
+		isArray: true,
+		nullable: true,
 	})
-	farmName: string;
-
-	@ApiProperty({
-		example: 'Rio de Janeiro',
-		description: 'Cidade onde a fazenda está situada.',
-	})
-	city: string;
-
-	@ApiProperty({
-		example: 'Rio de Janeiro',
-		description: 'Estado onde a fazenda está situada.',
-	})
-	state: string;
-
-	@ApiProperty({
-		example: 100,
-		description: 'Área total da fazenda em hectares',
-	})
-	totalAreaFarm: number;
+	farm?: Farm[];
 }

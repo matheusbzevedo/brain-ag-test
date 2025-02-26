@@ -1,16 +1,19 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-
 import { RuralProducerModule } from './rural-producer/rural-producer.module';
-import { TesteModule } from './teste/teste.module';
+import { PrismaService } from './prisma/prisma.service';
+import { FarmModule } from './farm/farm.module';
+import { HarvestModule } from './harvest/harvest.module';
 
 @Module({
 	imports: [
-		RuralProducerModule,
 		ConfigModule.forRoot({
 			isGlobal: true,
 		}),
-		TesteModule,
+		FarmModule,
+		HarvestModule,
+		RuralProducerModule,
 	],
+	providers: [PrismaService],
 })
 export class AppModule {}

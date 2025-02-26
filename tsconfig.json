@@ -17,6 +17,11 @@
 		"sourceMap": true,
 		"strictBindCallApply": false,
 		"strictNullChecks": true,
-		"target": "ES2021"
+		"target": "ES2021",
+		"paths": {
+			"@/farm/*": ["src/farm/*"],
+			"@/haverst/*": ["src/harvest/*"],
+			"@/rural-producer/*": ["src/rural-producer/*"]
+		}
 	}
 }
