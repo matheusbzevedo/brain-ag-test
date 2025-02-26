@@ -14,9 +14,9 @@ datasource db {
 }
 
 model RuralProducer {
-  cpfCnpj String @unique
+  cpfCnpj String @id
   name    String
-  Farms    Farm[]
+  Farms   Farm[]
 }
 
 model Farm {
@@ -27,7 +27,7 @@ model Farm {
   totalArea            Int
   arebleArea           Int
   vegetationArea       Int
-  Harvests              Harvest[]
+  Harvests             Harvest[]
   RuralProducer        RuralProducer? @relation(fields: [ruralProducerCpfCnpj], references: [cpfCnpj])
   ruralProducerCpfCnpj String?
 }
@@ -36,6 +36,6 @@ model Harvest {
   id     Int      @id @default(autoincrement())
   year   DateTime
   crop   String[]
-  Farms   Farm     @relation(fields: [farmId], references: [id])
+  Farms  Farm     @relation(fields: [farmId], references: [id])
   farmId Int
 }
