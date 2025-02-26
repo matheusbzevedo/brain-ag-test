@@ -1,3 +1,7 @@
+import { LoggingInterceptor } from '@/logging/logging.interceptor';
+import { createHarvestSchema } from '@/schemas/createHarvestSchema';
+import { updateHarvestSchema } from '@/schemas/updateHarvestSchema';
+import { ZodValidationPipe } from '@/zod-validation/zod-validation.pipe';
 import {
 	Body,
 	Controller,
@@ -9,10 +13,6 @@ import {
 	UseInterceptors,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { LoggingInterceptor } from 'src/logging/logging.interceptor';
-import { createHarvestSchema } from 'src/schemas/createHarvestSchema';
-import { updateHarvestSchema } from 'src/schemas/updateHarvestSchema';
-import { ZodValidationPipe } from 'src/zod-validation/zod-validation.pipe';
 import { CreateHarvestDto } from './dto/create-harvest.dto';
 import { UpdateHarvestDto } from './dto/update-harvest.dto';
 import { Harvest } from './entities/harvest.entity';
@@ -35,7 +35,7 @@ export class HarvestController {
 		@Param('farmId') farmId: string,
 		@Body(new ZodValidationPipe(createHarvestSchema))
 		createHarvestDto: CreateHarvestDto,
-	) {
+	): Promise<Harvest> {
 		return this.harvestService.create(
 			cpfCnpj,
 			Number(farmId),

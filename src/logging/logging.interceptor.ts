@@ -16,7 +16,6 @@ export class LoggingInterceptor implements NestInterceptor {
 		if (!request) {
 			return next.handle();
 		}
-
 		const { method, url, body } = request;
 
 		console.log(`Incoming Request: ${method} ${url}`, body || '');

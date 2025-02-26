@@ -21,8 +21,11 @@
 		"paths": {
 			"@/farm/*": ["src/farm/*"],
 			"@/haverst/*": ["src/harvest/*"],
+			"@/logging/*": ["src/logging/*"],
+			"@/prisma/*": ["src/prisma/*"],
 			"@/rural-producer/*": ["src/rural-producer/*"],
-			"@/prisma/*": ["src/prisma/*"]
+			"@/schemas/*": ["src/schemas/*"],
+			"@/zod-validation/*": ["src/zod-validation/*"]
 		}
 	}
 }

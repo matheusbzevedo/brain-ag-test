@@ -62,6 +62,14 @@
 		"typescript": "^5"
 	},
 	"jest": {
+		"coveragePathIgnorePatterns": [
+			"/node_modules/",
+			"/dist/",
+			"module",
+			"bootstrap",
+			"lambda",
+			"main"
+		],
 		"moduleFileExtensions": ["js", "json", "ts"],
 		"rootDir": "src",
 		"testRegex": ".*\\.spec\\.ts$",
@@ -71,6 +79,8 @@
 		"collectCoverageFrom": ["**/*.(t|j)s"],
 		"coverageDirectory": "../coverage",
 		"testEnvironment": "node",
-		"testPathIgnorePatterns": ["src/schemas"]
+		"moduleNameMapper": {
+			"^@/(.*)$": "<rootDir>/$1"
+		}
 	}
 }

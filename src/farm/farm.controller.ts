@@ -1,3 +1,6 @@
+import { LoggingInterceptor } from '@/logging/logging.interceptor';
+import { createUpdateFarmSchema } from '@/schemas/createFarmSchema';
+import { ZodValidationPipe } from '@/zod-validation/zod-validation.pipe';
 import {
 	Body,
 	Controller,
@@ -9,9 +12,6 @@ import {
 	UseInterceptors,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { LoggingInterceptor } from 'src/logging/logging.interceptor';
-import { createUpdateFarmSchema } from 'src/schemas/createFarmSchema';
-import { ZodValidationPipe } from 'src/zod-validation/zod-validation.pipe';
 import { CreateFarmDto } from './dto/create-farm.dto';
 import { UpdateFarmDto } from './dto/update-farm.dto';
 import { Farm } from './entities/farm.entity';
