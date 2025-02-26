@@ -67,12 +67,13 @@ export class RuralProducerController {
 		description: 'The found record',
 		type: RuralProducer,
 	})
-	findOne(@Param('cpfCnpj') cpfCnpj: string) {
+	findOne(@Param('cpfCnpj') cpfCnpj: string): Promise<RuralProducer> {
 		return this.ruralProducerService.findOne(cpfCnpj);
 	}
 
 	@Patch(':cpfCnpj')
 	@ApiOperation({ summary: 'Update Rural Producer' })
+	@ApiOkResponse({ description: 'Record updated!', type: RuralProducer })
 	update(
 		@Param('cpfCnpj') cpfCnpj: string,
 		@Body(new ZodValidationPipe(updateRuralProducerSchema))
@@ -83,7 +84,8 @@ export class RuralProducerController {
 
 	@Delete(':cpfCnpj')
 	@ApiOperation({ summary: 'Delete Rural Producer' })
-	remove(@Param('cpfCnpj') cpfCnpj: string) {
+	@ApiOkResponse({ description: 'Record deleted!', type: RuralProducer })
+	remove(@Param('cpfCnpj') cpfCnpj: string): Promise<RuralProducer> {
 		return this.ruralProducerService.remove(cpfCnpj);
 	}
 }

@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/swagger';
+import { OmitType, PartialType } from '@nestjs/swagger';
 import { CreateRuralProducerDto } from './create-rural-producer.dto';
 
-export class UpdateRuralProducerDto extends PartialType(CreateRuralProducerDto) {}
+export class UpdateRuralProducerDto extends PartialType(
+	OmitType(CreateRuralProducerDto, ['cpfCnpj']),
+) {}

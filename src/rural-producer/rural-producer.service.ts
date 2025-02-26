@@ -17,7 +17,15 @@ export class RuralProducerService {
 	}
 
 	async findAll(): Promise<RuralProducer[]> {
-		const ruralProducers = await this.prisma.ruralProducer.findMany();
+		const ruralProducers = await this.prisma.ruralProducer.findMany({
+			include: {
+				Farms: {
+					omit: {
+						ruralProducerCpfCnpj: true,
+					},
+				},
+			},
+		});
 
 		return ruralProducers;
 	}
@@ -25,6 +33,13 @@ export class RuralProducerService {
 	async findOne(cpfCnpj: string): Promise<RuralProducer> {
 		const ruralProducer = await this.prisma.ruralProducer.findUnique({
 			where: { cpfCnpj },
+			include: {
+				Farms: {
+					omit: {
+						ruralProducerCpfCnpj: true,
+					},
+				},
+			},
 		});
 
 		if (!ruralProducer) {
@@ -41,16 +56,7 @@ export class RuralProducerService {
 		cpfCnpj: string,
 		updateRuralProducerDto: UpdateRuralProducerDto,
 	): Promise<RuralProducer> {
-		const ruralProducer = await this.prisma.ruralProducer.findUnique({
-			where: { cpfCnpj },
-		});
-
-		if (!ruralProducer) {
-			throw new HttpException(
-				`Rural producer ${cpfCnpj} not found`,
-				HttpStatus.NOT_FOUND,
-			);
-		}
+		await this.findOne(cpfCnpj);
 
 		return await this.prisma.ruralProducer.update({
 			data: updateRuralProducerDto,
@@ -59,16 +65,7 @@ export class RuralProducerService {
 	}
 
 	async remove(cpfCnpj: string): Promise<RuralProducer> {
-		const ruralProducer = await this.prisma.ruralProducer.findUnique({
-			where: { cpfCnpj },
-		});
-
-		if (!ruralProducer) {
-			throw new HttpException(
-				`Rural producer ${cpfCnpj} not found`,
-				HttpStatus.NOT_FOUND,
-			);
-		}
+		await this.findOne(cpfCnpj);
 
 		return await this.prisma.ruralProducer.delete({ where: { cpfCnpj } });
 	}
