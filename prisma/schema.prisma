@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -25,17 +19,16 @@ model Farm {
   city                 String
   state                String
   totalArea            Int
-  arebleArea           Int
   vegetationArea       Int
-  Harvests             Harvest[]
-  RuralProducer        RuralProducer? @relation(fields: [ruralProducerCpfCnpj], references: [cpfCnpj])
   ruralProducerCpfCnpj String?
+  arebleArea           Int
+  RuralProducer        RuralProducer? @relation(fields: [ruralProducerCpfCnpj], references: [cpfCnpj], onDelete: Cascade)
+  Harvests             Harvest[]
 }
 
 model Harvest {
-  id     Int      @id @default(autoincrement())
-  year   DateTime
+  year   String @id
   crop   String[]
-  Farms  Farm     @relation(fields: [farmId], references: [id])
   farmId Int
+  Farms  Farm     @relation(fields: [farmId], references: [id], onDelete: Cascade)
 }

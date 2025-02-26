@@ -10,6 +10,7 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { CreateFarmDto } from './dto/create-farm.dto';
 import { UpdateFarmDto } from './dto/update-farm.dto';
+import { Farm } from './entities/farm.entity';
 import { FarmService } from './farm.service';
 
 @ApiTags('Fazenda')
@@ -17,9 +18,12 @@ import { FarmService } from './farm.service';
 export class FarmController {
 	constructor(private readonly farmService: FarmService) {}
 
-	@Post()
-	create(@Body() createFarmDto: CreateFarmDto) {
-		return this.farmService.create(createFarmDto);
+	@Post(':cpfCnpj')
+	create(
+		@Param('cpfCnpj') cpfCnpj: string,
+		@Body() createFarmDto: CreateFarmDto,
+	): Promise<Farm> {
+		return this.farmService.create(cpfCnpj, createFarmDto);
 	}
 
 	@Get()

@@ -1,26 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { PrismaService } from '@/prisma/prisma.service';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateFarmDto } from './dto/create-farm.dto';
 import { UpdateFarmDto } from './dto/update-farm.dto';
+import { Farm } from './entities/farm.entity';
 
 @Injectable()
 export class FarmService {
-  create(createFarmDto: CreateFarmDto) {
-    return 'This action adds a new farm';
-  }
+	constructor(private readonly prismaService: PrismaService) {}
 
-  findAll() {
-    return `This action returns all farm`;
-  }
+	async create(cpfCnpj: string, createFarmDto: CreateFarmDto): Promise<Farm> {
+		const user = await this.prismaService.ruralProducer.findUnique({
+			where: { cpfCnpj },
+		});
 
-  findOne(id: number) {
-    return `This action returns a #${id} farm`;
-  }
+		if (!user) {
+			throw new HttpException(
+				`Rural producer ${cpfCnpj} not found`,
+				HttpStatus.NOT_FOUND,
+			);
+		}
 
-  update(id: number, updateFarmDto: UpdateFarmDto) {
-    return `This action updates a #${id} farm`;
-  }
+		return await this.prismaService.farm.create({
+			data: { ...createFarmDto, ruralProducerCpfCnpj: cpfCnpj },
+		});
+	}
 
-  remove(id: number) {
-    return `This action removes a #${id} farm`;
-  }
+	findAll() {
+		return `This action returns all farm`;
+	}
+
+	findOne(id: number) {
+		return `This action returns a #${id} farm`;
+	}
+
+	update(id: number, updateFarmDto: UpdateFarmDto) {
+		return `This action updates a #${id} farm`;
+	}
+
+	remove(id: number) {
+		return `This action removes a #${id} farm`;
+	}
 }

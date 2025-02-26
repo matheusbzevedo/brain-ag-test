@@ -11,37 +11,65 @@ export class RuralProducerService {
 	async create(
 		createRuralProducerDto: CreateRuralProducerDto,
 	): Promise<RuralProducer> {
-		try {
-			const response = await this.prisma.ruralProducer.create({
-				data: createRuralProducerDto,
-			});
+		return await this.prisma.ruralProducer.create({
+			data: createRuralProducerDto,
+		});
+	}
 
-			return response;
-		} catch (error) {
-			console.log(error);
+	async findAll(): Promise<RuralProducer[]> {
+		const ruralProducers = await this.prisma.ruralProducer.findMany();
+
+		return ruralProducers;
+	}
+
+	async findOne(cpfCnpj: string): Promise<RuralProducer> {
+		const ruralProducer = await this.prisma.ruralProducer.findUnique({
+			where: { cpfCnpj },
+		});
+
+		if (!ruralProducer) {
 			throw new HttpException(
-				{
-					status: HttpStatus.BAD_REQUEST,
-					error: error.msg,
-				},
-				HttpStatus.BAD_REQUEST,
+				`Rural producer ${cpfCnpj} not found`,
+				HttpStatus.NOT_FOUND,
 			);
 		}
+
+		return ruralProducer;
 	}
 
-	findAll() {
-		return 'This action returns all ruralProducer';
+	async update(
+		cpfCnpj: string,
+		updateRuralProducerDto: UpdateRuralProducerDto,
+	): Promise<RuralProducer> {
+		const ruralProducer = await this.prisma.ruralProducer.findUnique({
+			where: { cpfCnpj },
+		});
+
+		if (!ruralProducer) {
+			throw new HttpException(
+				`Rural producer ${cpfCnpj} not found`,
+				HttpStatus.NOT_FOUND,
+			);
+		}
+
+		return await this.prisma.ruralProducer.update({
+			data: updateRuralProducerDto,
+			where: { cpfCnpj },
+		});
 	}
 
-	findOne(id: number) {
-		return `This action returns a #${id} ruralProducer`;
-	}
+	async remove(cpfCnpj: string): Promise<RuralProducer> {
+		const ruralProducer = await this.prisma.ruralProducer.findUnique({
+			where: { cpfCnpj },
+		});
 
-	update(id: number, updateRuralProducerDto: UpdateRuralProducerDto) {
-		return `This action updates a #${id} ruralProducer`;
-	}
+		if (!ruralProducer) {
+			throw new HttpException(
+				`Rural producer ${cpfCnpj} not found`,
+				HttpStatus.NOT_FOUND,
+			);
+		}
 
-	remove(id: number) {
-		return `This action removes a #${id} ruralProducer`;
+		return await this.prisma.ruralProducer.delete({ where: { cpfCnpj } });
 	}
 }

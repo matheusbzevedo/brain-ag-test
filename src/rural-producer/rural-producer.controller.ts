@@ -8,6 +8,9 @@ import {
 	Post,
 } from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { createRuralProducerSchema } from 'src/schemas/createRuralProducerSchema';
+import { updateRuralProducerSchema } from 'src/schemas/updateRuralProducerSchema';
+import { ZodValidationPipe } from 'src/zod-validation/zod-validation.pipe';
 import { CreateRuralProducerDto } from './dto/create-rural-producer.dto';
 import type { UpdateRuralProducerDto } from './dto/update-rural-producer.dto';
 import { RuralProducer } from './entities/rural-producer.entity';
@@ -42,7 +45,8 @@ export class RuralProducerController {
 		type: RuralProducer,
 	})
 	create(
-		@Body() createRuralProducerDto: CreateRuralProducerDto,
+		@Body(new ZodValidationPipe(createRuralProducerSchema))
+		createRuralProducerDto: CreateRuralProducerDto,
 	): Promise<RuralProducer> {
 		return this.ruralProducerService.create(createRuralProducerDto);
 	}
@@ -53,30 +57,33 @@ export class RuralProducerController {
 		type: RuralProducer,
 		isArray: true,
 	})
-	findAll() {
+	findAll(): Promise<RuralProducer[]> {
 		return this.ruralProducerService.findAll();
 	}
 
-	@Get(':id')
+	@Get(':cpfCnpj')
 	@ApiOperation({ summary: 'Create Rural Producer' })
 	@ApiOkResponse({
 		description: 'The found record',
 		type: RuralProducer,
 	})
-	findOne(@Param('id') id: string) {
-		return this.ruralProducerService.findOne(+id);
+	findOne(@Param('cpfCnpj') cpfCnpj: string) {
+		return this.ruralProducerService.findOne(cpfCnpj);
 	}
 
-	@Patch(':id')
+	@Patch(':cpfCnpj')
+	@ApiOperation({ summary: 'Update Rural Producer' })
 	update(
-		@Param('id') id: string,
-		@Body() updateRuralProducerDto: UpdateRuralProducerDto,
-	) {
-		return this.ruralProducerService.update(+id, updateRuralProducerDto);
+		@Param('cpfCnpj') cpfCnpj: string,
+		@Body(new ZodValidationPipe(updateRuralProducerSchema))
+		updateRuralProducerDto: UpdateRuralProducerDto,
+	): Promise<RuralProducer> {
+		return this.ruralProducerService.update(cpfCnpj, updateRuralProducerDto);
 	}
 
-	@Delete(':id')
-	remove(@Param('id') id: string) {
-		return this.ruralProducerService.remove(+id);
+	@Delete(':cpfCnpj')
+	@ApiOperation({ summary: 'Delete Rural Producer' })
+	remove(@Param('cpfCnpj') cpfCnpj: string) {
+		return this.ruralProducerService.remove(cpfCnpj);
 	}
 }
