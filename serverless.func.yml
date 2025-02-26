@@ -42,3 +42,111 @@ DeleteRuralProducerByCpfCnpj:
     - http:
         method: delete
         path: ${self:custom.version}/rural-producer/{cpfCnpj}
+
+GetTotalFarms:
+  name: get-total-farms
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: get
+        path: ${self:custom.version}/farm/total
+
+GetTotalFarmsHectares:
+  name: get-total-farms-hectares
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: get
+        path: ${self:custom.version}/farm/total-hectares
+
+CreateFarm:
+  name: create-farm
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: post
+        path: ${self:custom.version}/farm/{cpfCnpj}
+
+GetAllFarms:
+  name: get-all-farms
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: get
+        path: ${self:custom.version}/farm/{cpfCnpj}
+
+GetOneFarm:
+  name: get-one-farm
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: get
+        path: ${self:custom.version}/farm/{cpfCnpj}/{farmId}
+
+UpdateFarm:
+  name: update-farm
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: patch
+        path: ${self:custom.version}/farm/{cpfCnpj}/{farmId}
+
+DeleteFarm:
+  name: delete-farm
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: delete
+        path: ${self:custom.version}/farm/{cpfCnpj}/{farmId}
+
+CreateHarvest:
+  name: create-harvest
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: post
+        path: ${self:custom.version}/harvest/{cpfCnpj}/{farmId}
+
+GetAllHarvests:
+  name: get-all-harvest
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: get
+        path: ${self:custom.version}/harvest/{cpfCnpj}/{farmId}
+
+GetHarvestById:
+  name: get-harvest-by-id
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: get
+        path: ${self:custom.version}/harvest/{cpfCnpj}/{farmId}/{year}
+
+UpdateHarvest:
+  name: update-harvest
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: patch
+        path: ${self:custom.version}/harvest/{cpfCnpj}/{farmId}/{year}
+
+DeleteHarvest:
+  name: delete-harvest
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: delete
+        path: ${self:custom.version}/harvest/{cpfCnpj}/{farmId}/{year}

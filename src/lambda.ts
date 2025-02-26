@@ -5,18 +5,18 @@ import { createApp } from './bootstrap';
 let server: Handler;
 
 async function bootstrap(): Promise<Handler> {
-  const app = await createApp();
-  await app.init();
+	const app = await createApp();
+	await app.init();
 
-  const expressApp = app.getHttpAdapter().getInstance();
-  return serverlessExpress({ app: expressApp });
+	const expressApp = app.getHttpAdapter().getInstance();
+	return serverlessExpress({ app: expressApp });
 }
 
 export const handler: Handler = async (
-  event: any,
-  context: Context,
-  callback: Callback,
-): Promise<any> => {
-  server = server ?? (await bootstrap());
-  return server(event, context, callback);
+	event: unknown,
+	context: Context,
+	callback: Callback,
+): Promise<unknown> => {
+	server = server ?? (await bootstrap());
+	return server(event, context, callback);
 };
