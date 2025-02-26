@@ -1,0 +1,16 @@
+GetAllRuralProducer:
+  name: get-all-rural-producer
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: get
+        path: ${self:custom.version}/rural-producer
+GetOneRuralProducer:
+  name: get-one-rural-producer
+  handler: dist/src/lambda.handler
+  timeout: 15
+  events:
+    - http:
+        method: get
+        path: ${self:custom.version}/rural-producer/{producerId}
