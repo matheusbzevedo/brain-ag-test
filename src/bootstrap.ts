@@ -1,4 +1,5 @@
-import { VersioningType } from '@nestjs/common';
+import { AllExceptionsFilter } from '@/filters/all-exception';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import {
 	DocumentBuilder,
@@ -13,6 +14,14 @@ export async function createApp() {
 		cors: true,
 	});
 	app.use(helmet());
+	app.useGlobalPipes(
+		new ValidationPipe({
+			forbidNonWhitelisted: true,
+			transform: true,
+			whitelist: true,
+		}),
+	);
+	app.useGlobalFilters(new AllExceptionsFilter());
 	app.enableVersioning({
 		type: VersioningType.URI,
 		defaultVersion: '1',

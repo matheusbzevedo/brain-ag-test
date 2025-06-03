@@ -1,6 +1,4 @@
 import { LoggingInterceptor } from '@/logging/logging.interceptor';
-import { createUpdateFarmSchema } from '@/schemas/createFarmSchema';
-import { ZodValidationPipe } from '@/zod-validation/zod-validation.pipe';
 import {
 	Body,
 	Controller,
@@ -60,7 +58,7 @@ export class FarmController {
 	})
 	create(
 		@Param('cpfCnpj') cpfCnpj: string,
-		@Body(new ZodValidationPipe(createUpdateFarmSchema))
+		@Body()
 		createFarmDto: CreateFarmDto,
 	): Promise<Farm> {
 		return this.farmService.create(cpfCnpj, createFarmDto);
@@ -99,8 +97,7 @@ export class FarmController {
 	update(
 		@Param('cpfCnpj') cpfCnpj: string,
 		@Param('farmId') farmId: string,
-		@Body(new ZodValidationPipe(createUpdateFarmSchema))
-		updateFarmDto: UpdateFarmDto,
+		@Body() updateFarmDto: UpdateFarmDto,
 	): Promise<Farm> {
 		return this.farmService.update(cpfCnpj, Number(farmId), updateFarmDto);
 	}

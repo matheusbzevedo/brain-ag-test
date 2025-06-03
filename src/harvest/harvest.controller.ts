@@ -1,7 +1,4 @@
 import { LoggingInterceptor } from '@/logging/logging.interceptor';
-import { createHarvestSchema } from '@/schemas/createHarvestSchema';
-import { updateHarvestSchema } from '@/schemas/updateHarvestSchema';
-import { ZodValidationPipe } from '@/zod-validation/zod-validation.pipe';
 import {
 	Body,
 	Controller,
@@ -33,7 +30,7 @@ export class HarvestController {
 	create(
 		@Param('cpfCnpj') cpfCnpj: string,
 		@Param('farmId') farmId: string,
-		@Body(new ZodValidationPipe(createHarvestSchema))
+		@Body()
 		createHarvestDto: CreateHarvestDto,
 	): Promise<Harvest> {
 		return this.harvestService.create(
@@ -81,7 +78,7 @@ export class HarvestController {
 		@Param('cpfCnpj') cpfCnpj: string,
 		@Param('farmId') farmId: string,
 		@Param('year') year: string,
-		@Body(new ZodValidationPipe(updateHarvestSchema))
+		@Body()
 		updateHarvestDto: UpdateHarvestDto,
 	): Promise<Harvest> {
 		return this.harvestService.update(

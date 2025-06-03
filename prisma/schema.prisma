@@ -27,7 +27,7 @@ model Farm {
 }
 
 model Harvest {
-  year   String @id
+  year   String   @id
   crop   String[]
   farmId Int
   Farms  Farm     @relation(fields: [farmId], references: [id], onDelete: Cascade)

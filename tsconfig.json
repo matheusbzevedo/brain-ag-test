@@ -19,13 +19,13 @@
 		"strictNullChecks": true,
 		"target": "ES2021",
 		"paths": {
+			"@/filters/*": ["src/filters/*"],
+			"@/prisma/*": ["src/prisma/*"],
+			"@/validators/*": ["src/validators/*"],
 			"@/farm/*": ["src/farm/*"],
 			"@/haverst/*": ["src/harvest/*"],
 			"@/logging/*": ["src/logging/*"],
-			"@/prisma/*": ["src/prisma/*"],
-			"@/rural-producer/*": ["src/rural-producer/*"],
-			"@/schemas/*": ["src/schemas/*"],
-			"@/zod-validation/*": ["src/zod-validation/*"]
+			"@/rural-producer/*": ["src/rural-producer/*"]
 		}
 	}
 }

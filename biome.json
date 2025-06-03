@@ -32,7 +32,8 @@
 				"all": true
 			},
 			"suspicious": {
-				"noReactSpecificProps": "off"
+				"noReactSpecificProps": "off",
+				"noExplicitAny": "warn"
 			},
 			"correctness": {
 				"useImportExtensions": "off",

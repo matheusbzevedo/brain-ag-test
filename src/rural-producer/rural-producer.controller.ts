@@ -1,7 +1,4 @@
 import { LoggingInterceptor } from '@/logging/logging.interceptor';
-import { createRuralProducerSchema } from '@/schemas/createRuralProducerSchema';
-import { updateRuralProducerSchema } from '@/schemas/updateRuralProducerSchema';
-import { ZodValidationPipe } from '@/zod-validation/zod-validation.pipe';
 import {
 	Body,
 	Controller,
@@ -48,7 +45,7 @@ export class RuralProducerController {
 		type: RuralProducer,
 	})
 	create(
-		@Body(new ZodValidationPipe(createRuralProducerSchema))
+		@Body()
 		createRuralProducerDto: CreateRuralProducerDto,
 	): Promise<RuralProducer> {
 		return this.ruralProducerService.create(createRuralProducerDto);
@@ -79,7 +76,7 @@ export class RuralProducerController {
 	@ApiOkResponse({ description: 'Record updated!', type: RuralProducer })
 	update(
 		@Param('cpfCnpj') cpfCnpj: string,
-		@Body(new ZodValidationPipe(updateRuralProducerSchema))
+		@Body()
 		updateRuralProducerDto: UpdateRuralProducerDto,
 	): Promise<RuralProducer> {
 		return this.ruralProducerService.update(cpfCnpj, updateRuralProducerDto);
