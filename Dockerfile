@@ -21,4 +21,4 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
 COPY package.json ./
 
-CMD ["node", "dist/src/main"]
+CMD ["node", "dist/main"]
